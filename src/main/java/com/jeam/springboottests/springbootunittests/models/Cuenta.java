@@ -4,13 +4,18 @@ import com.jeam.springboottests.springbootunittests.exceptions.DineroInsuficient
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.zip.DataFormatException;
 
 @Getter
 @Setter
+@Entity
+@Table(name="cuentas")
 public class Cuenta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String persona;
     private BigDecimal saldo;
@@ -19,6 +24,10 @@ public class Cuenta {
         Id = id;
         this.persona = persona;
         this.saldo = saldo;
+    }
+
+    public Cuenta() {
+
     }
 
     @Override

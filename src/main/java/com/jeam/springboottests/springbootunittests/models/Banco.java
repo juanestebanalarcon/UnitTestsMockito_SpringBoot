@@ -3,15 +3,25 @@ package com.jeam.springboottests.springbootunittests.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
 @Setter
+@Entity
+@Table(name="bancos")
 public class Banco {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String nombre;
     private int totalTransferencias;
+
+    public Banco() {
+
+    }
+
     public void Banco(){
 
     }
