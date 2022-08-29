@@ -5,6 +5,7 @@ import com.jeam.springboottests.springbootunittests.models.Cuenta;
 import com.jeam.springboottests.springbootunittests.repositories.IBancoRepository;
 import com.jeam.springboottests.springbootunittests.repositories.ICuentasRepositrory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -19,11 +20,13 @@ public class CuentaService implements ICuentaService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Cuenta findById(Long Id) {
         return cuentasRepositrory.findById(Id).orElseThrow();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int RevisarTotalTransferencia(Long BancoId) {
         Banco banco = bancoRepository.findById(BancoId);
 
@@ -31,6 +34,7 @@ public class CuentaService implements ICuentaService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BigDecimal revisarSaldo(Long cuentaId) {
         Cuenta cuenta = cuentasRepositrory.findById(cuentaId).orElseThrow();
 
@@ -38,6 +42,7 @@ public class CuentaService implements ICuentaService{
     }
 
     @Override
+    @Transactional
     public void transferir(Long origen, Long bancoId, Long destino, BigDecimal monto) {
 
         Banco banco = bancoRepository.findById(bancoId);

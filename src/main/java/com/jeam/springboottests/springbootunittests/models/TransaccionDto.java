@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class TransaccionDto {
-private Long cuentaOrigenId, cuentaDestinoId;
+private Long cuentaOrigenId, bancoId, cuentaDestinoId;
 private BigDecimal monto;
 
 }
