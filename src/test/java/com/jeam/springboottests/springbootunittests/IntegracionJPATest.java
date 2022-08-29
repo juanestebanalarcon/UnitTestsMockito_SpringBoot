@@ -25,11 +25,8 @@ public class IntegracionJPATest {
     void findById() {
         Optional<Cuenta>cuenta = cuentasRepositrory.findById(1L);
         assertTrue(cuenta.isPresent());
-        assertThrows(NoSuchElementException.class,cuenta::orElseThrow);
-
-
-
-        ));
+//        assertThrows(NoSuchElementException.class,cuenta::orElseThrow);
+//        ));
         assertEquals("Juan",cuenta.orElseThrow().getPersona());
         assertEquals("1000.00",cuenta.orElseThrow().getSaldo().toPlainString());
 
