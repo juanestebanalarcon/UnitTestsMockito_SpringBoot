@@ -57,4 +57,9 @@ public class CuentaService implements ICuentaService{
         cuentasRepositrory.save(cuentaDestino);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        cuentasRepositrory.deleteById(id);
+    }
+
 }

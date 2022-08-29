@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.netty.transport.ClientTransport;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,11 +28,11 @@ class CuentaControllerWebClientTest {
     @Test
     @Order(1)
     void testTransferir() {
-        TransaccionDto dto = new TransaccionDto();
-        dto.setCuentaOrigenId(1L);
-        dto.setBancoId(1L);
-        dto.setCuentaDestinoId(2L);
-        dto.setMonto(new BigDecimal("100"));
+    TransaccionDto dto = new TransaccionDto();
+    dto.setCuentaOrigenId(1L);
+    dto.setBancoId(1L);
+    dto.setCuentaDestinoId(2L);
+    dto.setMonto(new BigDecimal("100"));
 
         client.post().uri("http://localhost/api/cuentas/transferir")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -61,7 +62,8 @@ class CuentaControllerWebClientTest {
                 .jsonPath("$").value(hasSize(2));
         ;
     }
-}    @Test
+
+    @Test
     @Order(3)
     void testListar2() {
         client.get().uri("/api/cuentas").exchange()
@@ -78,4 +80,24 @@ class CuentaControllerWebClientTest {
                 .value(hasSize(2));
         ;
     }
+
+    @Test
+    @Order(4)
+    void testEliminar() {
+        client.delete().uri("/api/cuentas").exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Cuenta.class)
+                .hasSize(4);
+        client.delete().uri("/api/cuentas/3").exchange()
+                .expectStatus().isNoContent()
+                .expectBody().isEmpty();
+        client.delete().uri("/api/cuentas").exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Cuenta.class).hasSize(3);
+        client.get().uri("/api/cuentas/3").exchange()
+                .expectStatus().is5xxServerError();
+        client.get().uri("/api/cuentas/3").exchange()
+                .expectStatus().isNotFound().expectBody().isEmpty();
+    }
+
 }
